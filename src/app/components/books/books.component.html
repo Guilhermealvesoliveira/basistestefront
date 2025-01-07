@@ -1,0 +1,172 @@
+<div class="container">
+    <h2 class="text-center my-4">Gerenciar Livros</h2>
+  
+    <!-- Botão para abrir o Modal de Adicionar -->
+    <button class="btn btn-success mb-3" (click)="addBook()">Adicionar Livro</button>
+  
+    <div *ngIf="books.length > 0" class="mt-4">
+      <h3>Lista de Livros</h3>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Título</th>
+            <th scope="col">Editora</th>
+            <th scope="col">Edição</th>
+            <th scope="col">Ano de publicação</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of books">
+            <td>{{ a.bookId }}</td>
+            <td>{{ a.title }}</td>
+            <td>{{ a.publisher }}</td>
+            <td>{{ a.edition }}</td>
+            <td>{{ a.publicationYear }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm btn-table" (click)="editBook(a.bookId)">Editar</button>
+              <button class="btn btn-danger btn-sm btn-table" (click)="openDeleteModal(a.bookId)">Excluir</button>
+              <button class="btn btn-success btn-sm btn-table" [routerLink]="['/Valores', a.bookId]">$</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div
+  class="modal fade show"
+  tabindex="-1"
+  style="display: block; background-color: rgba(0, 0, 0, 0.5);"
+  *ngIf="isModalOpen"
+  role="dialog"
+  aria-labelledby="modalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalLabel">
+          {{ book.bookId ? 'Editar Livro' : 'Adicionar Livro' }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="saveBook()">
+          
+          <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input
+              maxlength="40"
+              type="text"
+              id="title"
+              class="form-control"
+              [(ngModel)]="book.title"
+              name="title"
+              title="title"
+              placeholder="Digite o nome com no máximo 40 caracteres"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publisher" class="form-label">Editora</label>
+            <input
+              maxlength="40"
+              type="text"
+              id="publisher"
+              class="form-control"
+              [(ngModel)]="book.publisher"
+              name="publisher"
+              title="Editora"
+              placeholder="Digite o nome com no máximo 40 caracteres"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="edition" class="form-label">Edição</label>
+            <input
+              maxlength="40"
+              type="text"
+              id="edition"
+              class="form-control"
+              [(ngModel)]="book.edition"
+              name="edition"
+              title="Edição"
+              placeholder="Digite a edição com no máximo 40 caracteres"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publicationYear" class="form-label">Ano de publição</label>
+            <input
+              maxlength="4"
+              type="text"
+              id="publicationYear"
+              class="form-control"
+              [(ngModel)]="book.publicationYear"
+              name="publicationYear"
+              title="Ano"
+              placeholder="Digite o ano com no máximo 4 caracteres"
+              required
+            />
+          </div>
+          <!-- Seleção Múltipla de Autores -->
+          <div class="mb-3">
+            <label for="authors" class="form-label">Selecione os Autores</label>
+            <select multiple class="form-control" id="authors" [(ngModel)]="book.authorsId" name="authorsId">
+              <option *ngFor="let author of authors" [value]="author.authorId">{{ author.name }}</option>
+            </select>
+          </div>
+
+          <!-- Seleção Múltipla de Assuntos -->
+          <div class="mb-3">
+            <label for="subjects" class="form-label">Selecione os Assuntos</label>
+            <select multiple class="form-control" id="subjects" [(ngModel)]="book.subjectsId" name="subjectsId">
+              <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.description }}</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              (click)="closeModal()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!book.title"
+            >
+              {{ book.bookId ? 'Atualizar' : 'Salvar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" [ngClass]="{'show': isDeleteModalOpen}" style="display: block;" *ngIf="isDeleteModalOpen">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmação de Exclusão</h5>
+          <button type="button" class="btn-close" (click)="closeDeleteModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Você tem certeza de que deseja excluir este Livro?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="deleteBook()">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,55 @@
+.alert {
+    padding: 15px;
+    background-color: #f8f9fa; /* Default light background */
+    color: #333; /* Default dark text */
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .alert.alert-success {
+    background-color: #28a745; /* Green for success */
+    color: #fff;
+  }
+  
+  .alert.alert-danger {
+    background-color: #dc3545; /* Red for error */
+    color: #fff;
+  }
+  
+  .alert.alert-info {
+    background-color: #17a2b8; /* Blue for info */
+    color: #fff;
+  }
+  
+  .alert.alert-warning {
+    background-color: #ffc107; /* Yellow for warning */
+    color: #333;
+  }
+  
+  /* Style for the close button */
+  .btn-close {
+    background-color: rgba(0, 0, 0, 0.2); /* Light transparent background */
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-close:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Darker on hover */
+  }
+  
+  .btn-close:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Focus state */
+  }
+  
+  .btn-close::after {
+    font-size: 5rem;
+    color: white; /* X color */
+    font-weight: bold;
+  }
